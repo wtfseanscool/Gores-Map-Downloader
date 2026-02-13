@@ -1,0 +1,62 @@
+[package]
+name = "gores-map-downloader"
+version = "0.1.0"
+edition = "2021"
+description = "King of Gores map downloader for DDNet"
+authors = ["Sean"]
+
+[dependencies]
+# GUI
+eframe = "0.31"
+egui = "0.31"
+egui_extras = "0.31"
+egui-phosphor = { version = "0.9", features = ["regular"] }
+
+# Database
+rusqlite = { version = "0.34", features = ["bundled"] }
+
+# Async runtime & HTTP
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "fs"] }
+tokio-util = "0.7"
+reqwest = { version = "0.12", features = ["json", "stream", "blocking"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Auto-update
+self-replace = "1"
+self_update = { version = "0.41", features = ["archive-tar", "archive-zip", "compression-flate2", "compression-zip-deflate"] }
+
+# Utilities
+dirs = "6"
+chrono = { version = "0.4", features = ["serde"] }
+futures = "0.3"
+rfd = "0.15"
+image = "0.25"
+resvg = "0.45"
+open = "5"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+tracing-appender = "0.2"
+
+# Performance
+mimalloc = { version = "0.1", default-features = false }
+
+[build-dependencies]
+winres = "0.1"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+
+# Fast release builds for development (use: cargo build --profile dev-release)
+[profile.dev-release]
+inherits = "release"
+lto = false
+codegen-units = 16
+incremental = true
